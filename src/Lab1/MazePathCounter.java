@@ -22,10 +22,11 @@ public class MazePathCounter {
 
     MazePathCounter(int[][] m, int[] in, int[] out) {
 
-        this.n = m.length;
-        this.m = new int[n + 2][n + 2];
-        capacity = new int[n + 2][n + 2];
-        flow = new int[n + 2][n + 2];
+        this.n = m.length + 2;
+        this.m = new int[n][n];
+        capacity = new int[n][n];
+        flow = new int[n][n];
+        visited = new boolean[n];
 
         for (int i = 0; i < m.length; i++) {
             if (m[i].length >= 0) {
@@ -34,12 +35,16 @@ public class MazePathCounter {
             }
         }
 
-        s = n;
-        t = n + 1;
+        s = n - 2;
+        t = n - 1;
         for (int v: in) {
+            this.m[s][v] = 1;
+            this.m[v][s] = 1;
             capacity[s][v] = INF;
         }
         for (int u: out) {
+            this.m[t][u] = 1;
+            this.m[u][t] = 1;
             capacity[u][t] = INF;
         }
     }
@@ -56,14 +61,17 @@ public class MazePathCounter {
     }
 
     private int dfs(int u, int Cmin) { // Cmin — пропускная способность в текущем подпотоке
+//        System.out.println("u = " + u);
         if (u == t) {
             return Cmin;
         }
+//        System.out.println("t = " + t);
         visited[u] = true;
         for (int v = 0; v < n; v++) {
             if (m[u][v] == 0) {
                 continue;
             }
+//            System.out.println("v = " + v);
             if (!visited[v] && flow[u][v] < capacity[u][v]) {
                 int delta = dfs(v, Math.min(Cmin, capacity[u][v] - flow[u][v]));
                 if (delta > 0) {
