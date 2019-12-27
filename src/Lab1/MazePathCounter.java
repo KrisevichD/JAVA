@@ -53,26 +53,26 @@ public class MazePathCounter {
         Arrays.fill(visited, false);
         Arrays.fill(flow, new int[n]);
         return dfs(s, INF, 0);
-//        int nPeople = 0;
+//            int nPeople = 0;
 //
-//        for (int v = 0; v < n; v++) {
-//            for (int u = 0; u < n; u++) {
-//                System.out.print(flow[v][u] + " ");
+//            for (int v = 0; v < n; v++) {
+//                for (int u = 0; u < n; u++) {
+//                    System.out.print(flow[v][u] + " ");
+//                }
+//                System.out.println();
 //            }
-//            System.out.println();
-//        }
 //
-//        for (int v = 0; v < n; v++) {
-//            nPeople += flow[s][v];
-//        }
-//        return nPeople;
+//            for (int v = 0; v < n; v++) {
+//                nPeople += flow[s][v];
+//            }
+//            return nPeople;
     }
 
     private int dfs(int u, int Cmin, int dep) { // Cmin — пропускная способность в текущем подпотоке
-        for (int i = 0; i < dep; i++) {
-            System.out.print((char)9);
-        }
-        System.out.println("u = " + u);
+//        for (int i = 0; i < dep; i++) {
+//            System.out.print((char)9);
+//        }
+//        System.out.println("u = " + u);
         if (u == t) {
             return Cmin;
         }
@@ -81,16 +81,16 @@ public class MazePathCounter {
             if (m[u][v] == 0) {
                 continue;
             }
-            for (int i = 0; i < dep; i++) {
-                System.out.print((char)9);
-            }
-            System.out.println("v = " + v);
+//            for (int i = 0; i < dep; i++) {
+//                System.out.print((char)9);
+//            }
+//            System.out.println("v = " + v);
             if (!visited[v] && flow[u][v] < capacity[u][v]) {
                 int delta = dfs(v, Math.min(Cmin, capacity[u][v] - flow[u][v]), dep + 1);
                 for (int i = 0; i < dep; i++) {
                     System.out.print((char)9);
                 }
-                System.out.println("delta = " + delta);
+//                System.out.println("delta = " + delta);
                 if (delta > 0) {
                     flow[u][v] += delta;
                     flow[v][u] -= delta;
