@@ -37,12 +37,12 @@ public class MazePathCounter {
 
         s = n - 2;
         t = n - 1;
-        for (int v: in) {
+        for (int v : in) {
             this.m[s][v - 1] = 1;
             this.m[v - 1][s] = 1;
             capacity[s][v - 1] = INF;
         }
-        for (int u: out) {
+        for (int u : out) {
             this.m[t][u - 1] = 1;
             this.m[u - 1][t] = 1;
             capacity[u - 1][t] = INF;
@@ -50,53 +50,36 @@ public class MazePathCounter {
     }
 
     int calcPeople() {
-        Arrays.fill(visited, false);
-        Arrays.fill(flow, new int[n]);
-        return dfs(s, INF, 0);
-//            int nPeople = 0;
-//
-//            for (int v = 0; v < n; v++) {
-//                for (int u = 0; u < n; u++) {
-//                    System.out.print(flow[v][u] + " ");
-//                }
-//                System.out.println();
-//            }
-//
-//            for (int v = 0; v < n; v++) {
-//                nPeople += flow[s][v];
-//            }
-//            return nPeople;
+        for (int i = 0; i < n; i++) {
+            flow[i] = new int[n];
+        }
+
+        int nPeople = 0;
+        while (true) {
+            Arrays.fill(visited, false);
+            int add = dfs(s, INF);
+            if (add == 0) {
+                return nPeople;
+            }
+            nPeople += add;
+        }
     }
 
-    private int dfs(int u, int Cmin, int dep) { // Cmin — пропускная способность в текущем подпотоке
-//        for (int i = 0; i < dep; i++) {
-//            System.out.print((char)9);
-//        }
-//        System.out.println("u = " + u);
+    private int dfs(int u, int Cmin) { // Cmin — пропускная способность в текущем подпотоке
         if (u == t) {
             return Cmin;
         }
         visited[u] = true;
         for (int v = 0; v < n; v++) {
-            if (m[u][v] == 0) {
+            if (m[u][v] == 0 || visited[v] || flow[u][v] >= capacity[u][v]) {
                 continue;
             }
-//            for (int i = 0; i < dep; i++) {
-//                System.out.print((char)9);
-//            }
-//            System.out.println("v = " + v);
-            if (!visited[v] && flow[u][v] < capacity[u][v]) {
-                int delta = dfs(v, Math.min(Cmin, capacity[u][v] - flow[u][v]), dep + 1);
-                for (int i = 0; i < dep; i++) {
-                    System.out.print((char)9);
-                }
-//                System.out.println("delta = " + delta);
-                if (delta > 0) {
-                    flow[u][v] += delta;
-                    flow[v][u] -= delta;
 
-                    return delta;
-                }
+            int delta = dfs(v, Math.min(Cmin, capacity[u][v] - flow[u][v]));
+            if (delta > 0) {
+                flow[u][v] += delta;
+                flow[v][u] -= delta;
+                return delta;
             }
         }
         return 0;
