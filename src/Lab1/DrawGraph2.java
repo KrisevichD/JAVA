@@ -34,6 +34,11 @@ public class DrawGraph2 {
         g.setMatrix(arr);
         g.show2(g);
 
+    /* ответ на задачу:
+         var counter = new MazePathCounter(m, in, out);
+         counter.calcPeople();
+
+     */
 
 
         

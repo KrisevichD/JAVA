@@ -36,7 +36,12 @@ public class MazePathCounter {
 
         s = n;
         t = n + 1;
-
+        for (int v: in) {
+            capacity[s][v] = INF;
+        }
+        for (int u: out) {
+            capacity[u][t] = INF;
+        }
     }
 
     int calcPeople() {
