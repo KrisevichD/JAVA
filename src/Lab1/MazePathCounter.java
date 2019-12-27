@@ -38,14 +38,14 @@ public class MazePathCounter {
         s = n - 2;
         t = n - 1;
         for (int v : in) {
-            this.m[s][v - 1] = 1;
-            this.m[v - 1][s] = 1;
-            capacity[s][v - 1] = INF;
+            this.m[s][v] = 1;
+            this.m[v][s] = 1;
+            capacity[s][v] = INF;
         }
         for (int u : out) {
-            this.m[t][u - 1] = 1;
-            this.m[u - 1][t] = 1;
-            capacity[u - 1][t] = INF;
+            this.m[t][u] = 1;
+            this.m[u][t] = 1;
+            capacity[u][t] = INF;
         }
     }
 
