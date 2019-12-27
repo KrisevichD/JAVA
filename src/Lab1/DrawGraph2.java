@@ -1,58 +1,9 @@
 package Lab1;
 
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class DrawGraph2 {
-
-    final int n = 10; // размер графа
-
-    final int INF = 100;
-
-    int[][] m = new Graph(n).getMatrix();
-
-    int[][] capacity; // пропускные способности ребер
-
-    int[][] flow; // потоки
-
-    int s; // фейковый старт
-
-    int t; // фейковый финиш
-
-    boolean[] visited;
-
-    int dfs(int u, int Cmin) { // Cmin — пропускная способность в текущем подпотоке
-        if (u == t) {
-            return Cmin;
-        }
-        visited[u] = true;
-        for (int v = 0; v < n; v++) {
-            if (m[u][v] == 0) {
-                continue;
-            }
-            if (!visited[v] && flow[u][v] < capacity[u][v]) {
-                int delta = dfs(v, Math.min(Cmin, capacity[u][v] - flow[u][v]));
-                if (delta > 0) {
-                    flow[u][v] += delta;
-                    flow[v][u] -= delta;
-                    return delta;
-                }
-            }
-        }
-        return 0;
-    }
-
-    int calcPeople() {
-        Arrays.fill(visited, false);
-        Arrays.fill(flow, new int[n]);
-        dfs(s, INF);
-        int nPeople = 0;
-        for (int v = 0; v < n; v++) {
-            nPeople += flow[s][v];
-        }
-        return nPeople;
-    }
 
     public static void main(String[] args) {
         Random rand = new Random();
@@ -82,6 +33,8 @@ public class DrawGraph2 {
         arr[s4][11]=1;
         g.setMatrix(arr);
         g.show2(g);
+
+
 
         
     }
